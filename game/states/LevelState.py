@@ -6,8 +6,9 @@ from api.GameObject import GameObject
 from api.EnemyManager import EnemyManager
 from api.TextSprite import TextSprite
 
-from game.Player import Player
+from game.entities.Player import Player
 from game.GameData import GameData
+from game.managers.AstralManager import AstralManager
 
 class LevelState(GameState):
 
@@ -56,6 +57,8 @@ class LevelState(GameState):
         self.mTextScore.setXY(5, 5)
 
         self.mTextLives.setXY(5, Game.SCREEN_HEIGHT - 20 - 5)
+        
+        AstralManager.inst().spawnSystem()
 
     def update(self):
         GameState.update(self)
@@ -65,7 +68,7 @@ class LevelState(GameState):
         if self.mPlayer.isGameOver():
             print('GG IZI')
 
-        EnemyManager.inst().update()
+        AstralManager.inst().update()
 
         self.mTextScore.update()
 
@@ -73,11 +76,11 @@ class LevelState(GameState):
 
     def render(self):
         GameState.render(self)
-
         screen = Game.inst().getScreen()
+
         self.mPlayer.render(screen)
 
-        EnemyManager.inst().render(screen)
+        AstralManager.inst().render(screen)
 
         self.mTextScore.setText("SCORE: " + str(GameData.inst().getScore()))
         self.mTextLives.setText("VIDAS: " + str(GameData.inst().getLives()))
