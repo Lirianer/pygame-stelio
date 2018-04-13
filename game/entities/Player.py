@@ -18,39 +18,46 @@ class Player(AnimatedSprite):
 
     NORMAL = 0
     DYING = 1
-    EXPLODING = 2
-    START = 3
-    GAME_OVER = 4
+    DEFENDING = 2
+    GAME_OVER = 3
 
     # Tiempo que duran los estados
     TIME_DYING = 30
-    TIME_EXPLODING = 30
     TIME_START = 60
+    SCORE_LOSS_PER_SECOND_DEFENDING = 5
 
     def __init__(self):
         AnimatedSprite.__init__(self)
 
-        name = "assets\\images\\player0"
-
         self.mFrames = []
+        self.rockFrames = []
         i = 0
         while i <= 7:
-            tmpImg = pygame.image.load(name + str(i) + ".png").convert_alpha()
+            tmpImg = pygame.image.load(
+                "assets\\images\\player0" + str(i) + ".png").convert_alpha()
             self.mFrames.append(tmpImg)
+            i += 1
+
+        i = 0
+        while i <= 7:
+            tmpImg = pygame.image.load(
+                "assets\\images\\rock-player0" + str(i) + ".png").convert_alpha()
+            self.rockFrames.append(tmpImg)
             i += 1
 
         self.setImage(self.mFrames[0])
         self.initAnimation(self.mFrames, 0, 4, True)
         self.setState(Player.NORMAL)
         self.mouth = Rectangle(self.right() - 30, self.top(), 30, self.getHeight())
+        self.defendingTimer = 0
 
     def update(self):
         self.mouth.setX(self.right() - self.mouth.getWidth())
         self.mouth.setY(self.top())
         self.mouth.setHeight(self.getHeight())
 
+
         if self.getState() == Player.NORMAL:
-            
 
             astral = AstralManager.inst().collides(self.mouth)
             if astral:
@@ -58,24 +65,26 @@ class Player(AnimatedSprite):
 
             self.move()
 
+            if Mouse.inst().leftPressed() and GameData.inst().getScore() >= Player.SCORE_LOSS_PER_SECOND_DEFENDING:
+                self.setState(Player.DEFENDING)
+
+
+        elif self.getState() == Player.DEFENDING:
+            if not Mouse.inst().leftPressed() or GameData.inst().getScore() < Player.SCORE_LOSS_PER_SECOND_DEFENDING:
+                self.setState(Player.NORMAL)
+            
+            self.defendingTimer += 1
+
+            # TODO: Magic number 30fps == 1 second
+            if self.defendingTimer > 30:
+                GameData.inst().substractScore(Player.SCORE_LOSS_PER_SECOND_DEFENDING)
+                self.defendingTimer = 0
+            
+
         elif self.getState() == Player.DYING:
             if self.getTimeState() > Player.TIME_DYING:
-                self.setState(Player.EXPLODING)
+                self.setState(Player.GAME_OVER)
                 return
-        elif self.getState() == Player.EXPLODING:
-            if self.getTimeState() > Player.TIME_EXPLODING:
-                if self.isEnded():
-                    if(GameData.inst().getLives() == 0):
-                        self.setState(Player.GAME_OVER)
-                    else:
-                        GameData.inst().addLives(-1)
-                        self.setState(Player.START)
-                return
-        elif self.getState() == Player.START:
-            if self.getTimeState() > Player.TIME_START:
-                self.setState(Player.NORMAL)
-                return
-            self.move()
 
         elif self.getState() == Player.GAME_OVER:
             return
@@ -110,11 +119,6 @@ class Player(AnimatedSprite):
                 self.setVisible(True)
             else:
                 self.setVisible(False)
-        elif self.getState() == Player.START:
-            if self.getTimeState() % 6 == 0:
-                self.setVisible(True)
-            else:
-                self.setVisible(False)
 
         AnimatedSprite.render(self, aScreen)
 
@@ -124,15 +128,16 @@ class Player(AnimatedSprite):
         self.setVisible(True)
 
         if self.getState() == Player.DYING:
-            self.stopMove()
             self.initAnimation(self.mFrames, 0, 0, False)
-        elif self.getState() == Player.START:
-            self.initAnimation(self.mFrames, 0, 0, False)
-        elif self.getState() == Player.EXPLODING:
-            print('exploding')
 
         elif self.getState() == Player.NORMAL:
             self.initAnimation(self.mFrames, 0, 2, True)
+
+        elif self.getState() == Player.DEFENDING:
+            self.defendingTimer =0
+            self.initAnimation(self.rockFrames, self.getCurrentFrame(), 0, False)
+            self.gotoAndStop(self.getCurrentFrame())
+            self.stopMove()
 
         elif self.getState() == Player.GAME_OVER:
             self.setVisible(False)

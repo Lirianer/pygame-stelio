@@ -64,6 +64,9 @@ class AnimatedSprite(Sprite):
             self.mEnded = False
             self.mTimeFrame = 0
 
+    def getCurrentFrame(self):
+        return self.mCurrentFrame
+
     def destroy(self):
         Sprite.destroy(self)
         i = len(self.mFrame)

@@ -39,6 +39,10 @@ class GameData(object):
         GameData.mScore += aScore
         self.controlScores()
 
+    def substractScore(self, aScore):
+        GameData.mScore -= aScore
+        self.controlScores()
+
     def controlScores(self):
         if GameData.mScore < 0:
             GameData.mScore = 0
