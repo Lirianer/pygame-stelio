@@ -4,6 +4,7 @@ from api.Manager import *
 from api.GameConstants import GameConstants
 
 from game.entities.Planet import Planet
+from game.entities.Star import Star
 
 class AstralManager(Manager):
     mInstance = None
@@ -60,6 +61,15 @@ class AstralManager(Manager):
                 random.randint(0, GameConstants.SCREEN_HEIGHT - planet.getHeight())
             )
             self.add(planet)
+
+        lastPlanet = self.mArray[len(self.mArray) - 1]
+        star = Star()
+        star.setXY(
+            lastPlanet.getX() + lastPlanet.getWidth() + lastPlanet.getWidth() * random.randint(3, 8),
+            random.randint(0, GameConstants.SCREEN_HEIGHT - star.getHeight())
+        )
+
+        self.add(star)
         
         
         

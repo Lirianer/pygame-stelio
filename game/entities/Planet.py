@@ -16,6 +16,7 @@ class Planet(Sprite):
         self.setVelX(-5)
         self.setBounds(0, 0, GameConstants.inst().SCREEN_WIDTH,
                     GameConstants.inst().SCREEN_HEIGHT)
+        self.setScore(50)
 
     def update(self):
         Sprite.update(self)

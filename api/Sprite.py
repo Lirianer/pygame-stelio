@@ -46,7 +46,7 @@ class Sprite(GameObject):
     def collides(self, aSprite):
         if self.getCanCollide():
             if(self.right() > aSprite.left() and self.left() < aSprite.right()
-            and self.bottom() > aSprite.top()) and (aSprite.bottom() > self.top()):
+            and self.bottom() > aSprite.top() and aSprite.bottom() > self.top()):
                 return True
         else:
             return False

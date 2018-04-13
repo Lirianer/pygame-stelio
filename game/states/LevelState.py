@@ -47,16 +47,11 @@ class LevelState(GameState):
         self.mPlayer.setBoundAction(GameObject.STOP)
 
         GameData.inst().setScore(0)
-        GameData.inst().setLives(3)
 
         self.mTextScore = TextSprite("SCORE: " + str(GameData.inst().getScore()), 20,
                                       "assets/fonts/days.otf")
-        self.mTextLives = TextSprite("VIDAS: " + str(GameData.inst().getLives()), 20,
-                                      "assets/fonts/days.otf")
 
         self.mTextScore.setXY(5, 5)
-
-        self.mTextLives.setXY(5, Game.SCREEN_HEIGHT - 20 - 5)
         
         AstralManager.inst().spawnSystem()
 
@@ -72,21 +67,16 @@ class LevelState(GameState):
 
         self.mTextScore.update()
 
-        self.mTextLives.update()
-
     def render(self):
         GameState.render(self)
         screen = Game.inst().getScreen()
 
+        AstralManager.inst().render(screen)
         self.mPlayer.render(screen)
 
-        AstralManager.inst().render(screen)
 
         self.mTextScore.setText("SCORE: " + str(GameData.inst().getScore()))
-        self.mTextLives.setText("VIDAS: " + str(GameData.inst().getLives()))
-
         self.mTextScore.render(screen)
-        self.mTextLives.render(screen)
 
     def drawText(self, aScreen, aX, aY, aMsg, aSize, aColor = (0, 0, 0)):
         font = pygame.font.Font("assets/fonts/days.otf", aSize)
@@ -100,7 +90,6 @@ class LevelState(GameState):
         self.mPlayer = None
 
         self.mTextScore.destroy()
-        self.mTextLives.destroy()
 
         self.mImgSpace = None
         EnemyManager.inst().destroy()
