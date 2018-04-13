@@ -61,7 +61,7 @@ class LevelState(GameState):
         self.mPlayer.update()
 
         if self.mPlayer.isGameOver():
-            print('GG IZI')
+            print('PERDISTE')
 
         AstralManager.inst().update()
 
