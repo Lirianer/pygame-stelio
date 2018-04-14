@@ -51,6 +51,18 @@ class GameObject(object):
         self.mX = aX
         self.mY = aY
 
+    # Establece la posicion en el eje X del objeto
+    # Parametros:
+    # aX: Coordenada x del objeto
+    def setX(self, aX):
+        self.mX = aX
+
+    # Establece la posicion en el eje Y del objeto
+    # Parametros:
+    # aY: Coordenada Y del objeto
+    def setY(self, aY):
+        self.mY = aY
+
     # Define los limites del movimiento del objeto
     # Parametros:
     # aMinX, aMinY: Coordenadas X e Y minimas del mundo
