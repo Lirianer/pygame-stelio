@@ -10,6 +10,8 @@ from game.entities.Player import Player
 from game.GameData import GameData
 from game.managers.AstralManager import AstralManager
 
+from game.InfiniteBackground import InfiniteBackground
+
 class LevelState(GameState):
 
     mPlayer = None
@@ -34,10 +36,7 @@ class LevelState(GameState):
     def init(self):
         GameState.init(self)
 
-        self.mImgSpace = pygame.image.load("assets/images/background.png")
-        self.mImgSpace = self.mImgSpace.convert()
-
-        Game.inst().setBackground(self.mImgSpace)
+        self.background = InfiniteBackground()
 
         self.mPlayer = Player()
         self.mPlayer.setXY(Game.SCREEN_WIDTH / 4 - self.mPlayer.getWidth() / 2,
@@ -58,6 +57,8 @@ class LevelState(GameState):
     def update(self):
         GameState.update(self)
 
+        self.background.update()
+
         self.mPlayer.update()
 
         if self.mPlayer.isGameOver():
@@ -70,6 +71,8 @@ class LevelState(GameState):
     def render(self):
         GameState.render(self)
         screen = Game.inst().getScreen()
+
+        self.background.render(screen)
 
         AstralManager.inst().render(screen)
         self.mPlayer.render(screen)
@@ -91,6 +94,6 @@ class LevelState(GameState):
 
         self.mTextScore.destroy()
 
-        self.mImgSpace = None
+        self.background.destroy()
         EnemyManager.inst().destroy()
         GameData.inst().destroy()
