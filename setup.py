@@ -15,21 +15,6 @@ shortcut_table = [
      None,                     # ShowCmd
      'TARGETDIR'               # WkDir
      ),
-                  
-    ("StartupShortcut",        # Shortcut
-     "StartupFolder",          # Directory_
-     "Stelio",                 # Name
-     "TARGETDIR",              # Component_
-     "[TARGETDIR]Stelio.exe",  # Target
-     None,                     # Arguments
-     None,                     # Description
-     None,                     # Hotkey
-     None,                     # Icon
-     None,                     # IconIndex
-     None,                     # ShowCmd
-     'TARGETDIR'               # WkDir
-     ),
-
     ]
 
 # Now create the table dictionary
