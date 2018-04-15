@@ -11,6 +11,8 @@ from game.GameData import GameData
 from game.managers.AstralManager import AstralManager
 from game.MousePointer import MousePointer
 
+from game.InfiniteBackground import InfiniteBackground
+
 class LevelState(GameState):
 
     mPlayer = None
@@ -34,10 +36,7 @@ class LevelState(GameState):
     def init(self):
         GameState.init(self)
 
-        self.mImgSpace = pygame.image.load("assets/images/background.png")
-        self.mImgSpace = self.mImgSpace.convert()
-
-        Game.inst().setBackground(self.mImgSpace)
+        self.background = InfiniteBackground()
 
         self.cursor = MousePointer()
         self.mPlayer = Player()
@@ -60,6 +59,7 @@ class LevelState(GameState):
         GameState.update(self)
 
         self.cursor.update()
+        self.background.update()
 
         self.mPlayer.update()
 
@@ -73,6 +73,8 @@ class LevelState(GameState):
     def render(self):
         GameState.render(self)
         screen = Game.inst().getScreen()
+
+        self.background.render(screen)
 
         AstralManager.inst().render(screen)
         self.mPlayer.render(screen)
@@ -98,6 +100,6 @@ class LevelState(GameState):
 
         self.mTextScore.destroy()
 
-        self.mImgSpace = None
+        self.background.destroy()
         EnemyManager.inst().destroy()
         GameData.inst().destroy()

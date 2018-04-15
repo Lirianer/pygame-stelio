@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from api.Game import Game
 from game.states.LevelState import LevelState
 
