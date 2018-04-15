@@ -9,11 +9,13 @@ from api.TextSprite import TextSprite
 from game.entities.Player import Player
 from game.GameData import GameData
 from game.managers.AstralManager import AstralManager
+from game.MousePointer import MousePointer
 
 class LevelState(GameState):
 
     mPlayer = None
     mImgSpace = None
+    cursor = None
 
     mTextLives1 = None
     mTextLives2 = None
@@ -25,11 +27,9 @@ class LevelState(GameState):
 
         self.mImgSpace = None
         self.mPlayer = None
+        self.cursor = None
 
-        self.mTextLives1 = None
-        self.mTextLives2 = None
         self.mTextScore1 = None
-        self.mTextScore2 = None
 
     def init(self):
         GameState.init(self)
@@ -39,6 +39,7 @@ class LevelState(GameState):
 
         Game.inst().setBackground(self.mImgSpace)
 
+        self.cursor = MousePointer()
         self.mPlayer = Player()
         self.mPlayer.setXY(Game.SCREEN_WIDTH / 4 - self.mPlayer.getWidth() / 2,
                             Game.SCREEN_HEIGHT - self.mPlayer.getHeight() - 20)
@@ -58,6 +59,8 @@ class LevelState(GameState):
     def update(self):
         GameState.update(self)
 
+        self.cursor.update()
+
         self.mPlayer.update()
 
         if self.mPlayer.isGameOver():
@@ -74,6 +77,8 @@ class LevelState(GameState):
         AstralManager.inst().render(screen)
         self.mPlayer.render(screen)
 
+        self.cursor.render(screen)
+
 
         self.mTextScore.setText("SCORE: " + str(GameData.inst().getScore()))
         self.mTextScore.render(screen)
@@ -85,6 +90,8 @@ class LevelState(GameState):
 
     def destroy(self):
         GameState.destroy(self)
+
+        self.cursor.destroy()
 
         self.mPlayer.destroy()
         self.mPlayer = None
