@@ -1,8 +1,10 @@
 import pygame
+from api.Math import Math
 from api.EnemyManager import EnemyManager
 from api.Sprite import Sprite
 from api.GameObject import GameObject
 from api.GameConstants import GameConstants
+from api.Circle import Circle
 
 from game.GameData import GameData
 
@@ -17,6 +19,9 @@ class Planet(Sprite):
         self.setBounds(0, 0, GameConstants.inst().SCREEN_WIDTH,
                     GameConstants.inst().SCREEN_HEIGHT)
         self.setScore(50)
+
+    def collides(self, player):
+        return Math.collides(Circle(self.getX() + self.getWidth() / 2, self.getY() + self.getHeight() / 2, self.getWidth() / 2), player)
 
     def update(self):
         Sprite.update(self)
