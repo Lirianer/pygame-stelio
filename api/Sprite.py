@@ -1,7 +1,13 @@
 import pygame
+from api.Math import Math
+from api.Rectangle import Rectangle
+from api.Circle import Circle
 from api.GameObject import GameObject
 
 class Sprite(GameObject):
+
+    TOP_LEFT = 0
+    CENTER = 1
 
     def __init__(self):
         GameObject.__init__(self)
@@ -11,11 +17,18 @@ class Sprite(GameObject):
         self.mVisible = True
         self.mCanCollide = True
         self.mScore = 0
+        self.mRegistration = Sprite.TOP_LEFT
+        self.mRadius = 0
 
     def render(self, aScreen):
         if(self.mImg != None):
             if self.mVisible:
-                aScreen.blit(self.mImg, (self.getX(), self.getY()))
+                if self.mRegistration == Sprite.TOP_LEFT:
+                    aScreen.blit(self.mImg, (self.getX(), self.getY()))
+                elif self.mRegistration == Sprite.CENTER:
+                    aScreen.blit(self.mImg, 
+                                  (self.getX() - self.getWidth()/2, 
+                                  self.getY() - self.getHeight()/2))
 
     def setImage(self, aImg):
         self.mImg = aImg
@@ -45,9 +58,11 @@ class Sprite(GameObject):
 
     def collides(self, aSprite):
         if self.getCanCollide():
-            if(self.right() > aSprite.left() and self.left() < aSprite.right()
-            and self.bottom() > aSprite.top() and aSprite.bottom() > self.top()):
-                return True
+            if(self.mRegistration == Sprite.TOP_LEFT):
+                return Math.rectangleRectangleCollision(Rectangle(self.getX(), self.getY(), self.getWidth(), self.getHeight()),
+                                                            Rectangle(aSprite.getX(), aSprite.getY(), aSpirte.getWidth(), aSprite.getHeight()))
+            elif(self.mRegistration == Sprite.CENTER):
+                return Math.circleCircleCollision(Circle(self.getX(), self.getY(), self.getRadius()), Circle(aSprite.getX(), aSprite.getY(), aSprite.getRadius()))
         else:
             return False
 
@@ -68,6 +83,16 @@ class Sprite(GameObject):
 
     def getScore(self):
         return self.mScore
+
+    def setRegistration(self, aRegistration):
+        self.mRegistration = aRegistration
+        
+
+    def setRadius(self, aRadius):
+        self.mRadius = aRadius
+
+    def getRadius(self):
+        return self.mRadius
 
     def destroy(self):
         GameObject.destroy(self)

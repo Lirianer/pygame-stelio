@@ -3,6 +3,8 @@ from api.EnemyManager import EnemyManager
 from api.Sprite import Sprite
 from api.GameObject import GameObject
 from api.GameConstants import GameConstants
+from api.Math import Math
+from api.Circle import Circle
 
 from game.GameData import GameData
 
@@ -21,6 +23,9 @@ class Star(Sprite):
 		self.setVelX(-5)
 		self.setBounds(0, 0, GameConstants.inst().SCREEN_WIDTH,
 						GameConstants.inst().SCREEN_HEIGHT)
+
+	def collides(self, player):
+		return Math.collides(Circle(self.getX() + self.getWidth() / 2, self.getY() + self.getHeight() / 2, self.getWidth() / 2), player)
 
 	def update(self):
 		Sprite.update(self)
