@@ -1,5 +1,5 @@
 import pygame
-import random
+from api.Math import Math
 from api.Manager import *
 from api.GameConstants import GameConstants
 
@@ -52,21 +52,21 @@ class AstralManager(Manager):
         AstralManager.mInstance = None
 
     def spawnSystem(self):
-        planets = random.randint(3, 6)
+        planets = Math.randomIntBetween(3, 6)
 
         for x in range(0, planets):
             planet = Planet()
             planet.setXY(
                 planet.getWidth() * 3 * x + GameConstants.SCREEN_WIDTH,
-                random.randint(0, GameConstants.SCREEN_HEIGHT - planet.getHeight())
+                Math.randomIntBetween(0, GameConstants.SCREEN_HEIGHT - planet.getHeight())
             )
             self.add(planet)
 
         lastPlanet = self.mArray[len(self.mArray) - 1]
         star = Star()
         star.setXY(
-            lastPlanet.getX() + lastPlanet.getWidth() + lastPlanet.getWidth() * random.randint(3, 8),
-            random.randint(0, GameConstants.SCREEN_HEIGHT - star.getHeight())
+            lastPlanet.getX() + lastPlanet.getWidth() + lastPlanet.getWidth() * Math.randomIntBetween(3, 8),
+            Math.randomIntBetween(0, GameConstants.SCREEN_HEIGHT - star.getHeight())
         )
 
         self.add(star)
