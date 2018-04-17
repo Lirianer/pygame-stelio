@@ -56,3 +56,7 @@ class Math(object):
     @classmethod
     def distance(cls, aX1, aY1, aX2, aY2):
         return math.sqrt(((aX2 - aX1) * (aX2 - aX1)) + ((aY2 - aY1) * (aY2 - aY1)))
+
+    @classmethod
+    def floor(cls, aInt):
+        return math.floor(aInt)

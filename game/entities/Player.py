@@ -62,6 +62,7 @@ class Player(AnimatedSprite):
             astral = AstralManager.inst().collides(self.mouth)
             if astral:
                 self.collideAction(astral)
+                self.setScale(self.mScale + 0.01)
 
             self.move()
 
@@ -134,7 +135,7 @@ class Player(AnimatedSprite):
             self.initAnimation(self.mFrames, 0, 2, True)
 
         elif self.getState() == Player.DEFENDING:
-            self.defendingTimer =0
+            self.defendingTimer = 0
             self.initAnimation(self.rockFrames, self.getCurrentFrame(), 0, False)
             self.gotoAndStop(self.getCurrentFrame())
             self.stopMove()
