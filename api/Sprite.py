@@ -19,14 +19,16 @@ class Sprite(GameObject):
         self.mScore = 0
         self.mRegistration = Sprite.TOP_LEFT
         self.mRadius = 0
+        self.mScale = 1
 
     def render(self, aScreen):
         if(self.mImg != None):
+            scaledImage = pygame.transform.scale(self.mImg, ( int(self.getWidth() * self.mScale), int(self.getHeight() * self.mScale)))
             if self.mVisible:
                 if self.mRegistration == Sprite.TOP_LEFT:
-                    aScreen.blit(self.mImg, (self.getX(), self.getY()))
+                    aScreen.blit(scaledImage, (self.getX(), self.getY()))
                 elif self.mRegistration == Sprite.CENTER:
-                    aScreen.blit(self.mImg, 
+                    aScreen.blit(scaledImage, 
                                   (self.getX() - self.getWidth()/2, 
                                   self.getY() - self.getHeight()/2))
 
@@ -60,7 +62,7 @@ class Sprite(GameObject):
         if self.getCanCollide():
             if(self.mRegistration == Sprite.TOP_LEFT):
                 return Math.rectangleRectangleCollision(Rectangle(self.getX(), self.getY(), self.getWidth(), self.getHeight()),
-                                                            Rectangle(aSprite.getX(), aSprite.getY(), aSpirte.getWidth(), aSprite.getHeight()))
+                                                            Rectangle(aSprite.getX(), aSprite.getY(), aSprite.getWidth(), aSprite.getHeight()))
             elif(self.mRegistration == Sprite.CENTER):
                 return Math.circleCircleCollision(Circle(self.getX(), self.getY(), self.getRadius()), Circle(aSprite.getX(), aSprite.getY(), aSprite.getRadius()))
         else:
@@ -93,6 +95,9 @@ class Sprite(GameObject):
 
     def getRadius(self):
         return self.mRadius
+
+    def setScale(self, aScale):
+        self.mScale = aScale
 
     def destroy(self):
         GameObject.destroy(self)
