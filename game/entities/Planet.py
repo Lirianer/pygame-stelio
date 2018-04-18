@@ -1,17 +1,17 @@
 import pygame
 from api.Math import Math
 from api.EnemyManager import EnemyManager
-from api.Sprite import Sprite
+from api.AnimatedSprite import AnimatedSprite
 from api.GameObject import GameObject
 from api.GameConstants import GameConstants
 from api.Circle import Circle
 
 from game.GameData import GameData
 
-class Planet(Sprite):
+class Planet(AnimatedSprite):
 
     def __init__(self):
-        Sprite.__init__(self)
+        AnimatedSprite.__init__(self)
         img = pygame.image.load("assets\\images\\planet.png").convert_alpha()
         self.setImage(img)
         self.setBoundAction(GameObject.NONE)
@@ -20,17 +20,27 @@ class Planet(Sprite):
                     GameConstants.inst().SCREEN_HEIGHT)
         self.setScore(50)
 
+        self.mFrames = []
+        i = 0
+        while i < 20:
+            img = pygame.image.load(
+                "assets\\images\\planet" + str(i) + ".png").convert_alpha()
+            self.mFrames.append(img)
+            i += 1
+
+        self.initAnimation(self.mFrames, Math.randomIntBetween(0, len(self.mFrames) - 1), Math.randomIntBetween(2, 8), True)
+        
     def collides(self, player):
         return Math.collides(Circle(self.getX() + self.getWidth() / 2, self.getY() + self.getHeight() / 2, self.getWidth() / 2), player)
 
     def update(self):
-        Sprite.update(self)
+        AnimatedSprite.update(self)
 
         if(self.right() < 0):
             self.die()
 
     def render(self, aScreen):
-        Sprite.render(self, aScreen)
+        AnimatedSprite.render(self, aScreen)
 
     def destroy(self):
-        Sprite.destroy(self)
+        AnimatedSprite.destroy(self)
