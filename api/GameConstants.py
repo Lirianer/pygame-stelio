@@ -5,7 +5,8 @@ class GameConstants(object):
      mInitialized = False
      SCREEN_WIDTH = 1280
      SCREEN_HEIGHT = 720
-     BACKGROUND_SPEED = 20
+     BACKGROUND_SPEED = 5
+     ASTRAL_SPEED = 10
 
      def __new__(self, *args, **kargs):
          if (GameConstants.mInstance is None):

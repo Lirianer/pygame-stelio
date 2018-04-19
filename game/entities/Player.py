@@ -34,14 +34,14 @@ class Player(AnimatedSprite):
         i = 0
         while i <= 7:
             tmpImg = pygame.image.load(
-                "assets\\images\\player0" + str(i) + ".png").convert_alpha()
+                "assets\\images\\player\\player0" + str(i) + ".png").convert_alpha()
             self.mFrames.append(tmpImg)
             i += 1
 
         i = 0
         while i <= 7:
             tmpImg = pygame.image.load(
-                "assets\\images\\rock-player0" + str(i) + ".png").convert_alpha()
+                "assets\\images\\player\\rock-player0" + str(i) + ".png").convert_alpha()
             self.rockFrames.append(tmpImg)
             i += 1
 

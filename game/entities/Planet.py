@@ -12,10 +12,8 @@ class Planet(AnimatedSprite):
 
     def __init__(self):
         AnimatedSprite.__init__(self)
-        img = pygame.image.load("assets\\images\\planet.png").convert_alpha()
-        self.setImage(img)
         self.setBoundAction(GameObject.NONE)
-        self.setVelX(-5)
+        self.setVelX(-GameConstants.ASTRAL_SPEED)
         self.setBounds(0, 0, GameConstants.inst().SCREEN_WIDTH,
                     GameConstants.inst().SCREEN_HEIGHT)
         self.setScore(50)
@@ -24,7 +22,7 @@ class Planet(AnimatedSprite):
         i = 0
         while i < 20:
             img = pygame.image.load(
-                "assets\\images\\planet" + str(i) + ".png").convert_alpha()
+                "assets\\images\\planets\\planet" + str(i) + ".png").convert_alpha()
             self.mFrames.append(img)
             i += 1
 
