@@ -6,8 +6,6 @@ from api.GameConstants import GameConstants
 from api.Math import Math
 from api.Circle import Circle
 
-from game.GameData import GameData
-
 
 class Star(AnimatedSprite):
 
@@ -48,7 +46,6 @@ class Star(AnimatedSprite):
 			i += 1
 		
 		self.setBoundAction(GameObject.NONE)
-		self.setVelX(-GameConstants.ASTRAL_SPEED)
 		self.setBounds(0, 0, GameConstants.inst().SCREEN_WIDTH,
 						GameConstants.inst().SCREEN_HEIGHT)
 

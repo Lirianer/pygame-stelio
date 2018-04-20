@@ -6,8 +6,6 @@ from api.GameObject import GameObject
 from api.GameConstants import GameConstants
 from api.Circle import Circle
 
-from game.GameData import GameData
-
 class Planet(AnimatedSprite):
 
     TYPE_PLANET = 0
@@ -16,7 +14,6 @@ class Planet(AnimatedSprite):
     def __init__(self, aType):
         AnimatedSprite.__init__(self)
         self.setBoundAction(GameObject.NONE)
-        self.setVelX(-GameConstants.ASTRAL_SPEED)
         self.setBounds(0, 0, GameConstants.inst().SCREEN_WIDTH,
                     GameConstants.inst().SCREEN_HEIGHT)
 
@@ -26,7 +23,7 @@ class Planet(AnimatedSprite):
         frameQuantity = 0
         if self.mType == Planet.TYPE_PLANET:
             imageName = "assets\\images\\planets\\planet"
-            self.setScore(50)
+            self.setScore(25)
             frameQuantity = 20
         elif self.mType == Planet.TYPE_GAS:
             imageName = "assets\\images\\planets\\gas-planet"

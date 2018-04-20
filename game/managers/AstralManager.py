@@ -3,6 +3,7 @@ from api.Math import Math
 from api.Manager import *
 from api.GameConstants import GameConstants
 
+from game.GameData import GameData
 from game.entities.Planet import Planet
 from game.entities.Star import Star
 
@@ -65,6 +66,8 @@ class AstralManager(Manager):
                 planet.getWidth() * 3 * x + GameConstants.SCREEN_WIDTH,
                 Math.randomIntBetween(0, GameConstants.SCREEN_HEIGHT - planet.getHeight())
             )
+            planet.setVelX(-Math.clamp((20/10000 * GameData.inst().getHighestReached() + 10),
+                                    GameConstants.MAX_ASTRAL_SPEED, GameConstants.MIN_ASTRAL_SPEED))
             self.add(planet)
 
         lastPlanet = self.mArray[len(self.mArray) - 1]
@@ -73,7 +76,8 @@ class AstralManager(Manager):
             lastPlanet.getX() + lastPlanet.getWidth() + lastPlanet.getWidth() * Math.randomIntBetween(3, 8),
             Math.randomIntBetween(0, GameConstants.SCREEN_HEIGHT - star.getHeight())
         )
-
+        star.setVelX(-Math.clamp((20/10000 * GameData.inst().getHighestReached() + 10),
+                                 GameConstants.MAX_ASTRAL_SPEED, GameConstants.MIN_ASTRAL_SPEED))
         self.add(star)
         
         

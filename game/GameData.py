@@ -30,6 +30,7 @@ class GameData(object):
 
         GameData.mScore = 0
         GameData.mLives = 0
+        GameData.mHighestReached = 0
 
     def setScore(self, aScore):
         GameData.mScore = aScore
@@ -46,11 +47,17 @@ class GameData(object):
     def controlScores(self):
         if GameData.mScore < 0:
             GameData.mScore = 0
-        elif GameData.mScore > 99999:
-            GameData.mScore = 99999
+        elif GameData.mScore > 999999:
+            GameData.mScore = 999999
+
+        if GameData.mHighestReached < GameData.mScore:
+            GameData.mHighestReached = GameData.mScore
 
     def getScore(self):
         return GameData.mScore
+
+    def getHighestReached(self):
+        return GameData.mHighestReached
 
     def setLives(self, aLives):
         GameData.mLives = aLives
