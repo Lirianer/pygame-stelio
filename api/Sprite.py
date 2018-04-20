@@ -75,7 +75,7 @@ class Sprite(GameObject):
         if self.getCanCollide():
             if(self.mRegistration == Sprite.TOP_LEFT):
                 return Math.rectangleRectangleCollision(Rectangle(self.getX(), self.getY(), self.getWidth(), self.getHeight()),
-                                                            Rectangle(aSprite.getX(), aSprite.getY(), aSpirte.getWidth(), aSprite.getHeight()))
+                                                            Rectangle(aSprite.getX(), aSprite.getY(), aSprite.getWidth(), aSprite.getHeight()))
             elif(self.mRegistration == Sprite.CENTER):
                 return Math.circleCircleCollision(Circle(self.getX(), self.getY(), self.getRadius()), Circle(aSprite.getX(), aSprite.getY(), aSprite.getRadius()))
         else:
