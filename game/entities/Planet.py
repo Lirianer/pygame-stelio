@@ -10,19 +10,37 @@ from game.GameData import GameData
 
 class Planet(AnimatedSprite):
 
-    def __init__(self):
+    TYPE_PLANET = 0
+    TYPE_GAS = 1
+
+    def __init__(self, aType):
         AnimatedSprite.__init__(self)
         self.setBoundAction(GameObject.NONE)
         self.setVelX(-GameConstants.ASTRAL_SPEED)
         self.setBounds(0, 0, GameConstants.inst().SCREEN_WIDTH,
                     GameConstants.inst().SCREEN_HEIGHT)
-        self.setScore(50)
 
+        self.mType = aType
+
+        imageName = ''
+        frameQuantity = 0
+        if self.mType == Planet.TYPE_PLANET:
+            imageName = "assets\\images\\planets\\planet"
+            self.setScore(50)
+            frameQuantity = 20
+        elif self.mType == Planet.TYPE_GAS:
+            imageName = "assets\\images\\planets\\gas-planet"
+            self.setScore(-50)
+            frameQuantity = 7
+
+            
+        self.setAngle(Math.randomIntBetween(-30, 30))
         self.mFrames = []
+
         i = 0
-        while i < 20:
+        while i < frameQuantity:
             img = pygame.image.load(
-                "assets\\images\\planets\\planet" + str(i) + ".png").convert_alpha()
+                imageName + str(i) + ".png").convert_alpha()
             self.mFrames.append(img)
             i += 1
 

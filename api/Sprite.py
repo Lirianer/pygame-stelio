@@ -11,6 +11,7 @@ class Sprite(GameObject):
 
     def __init__(self):
         GameObject.__init__(self)
+        self.mImgMaster = None
         self.mImg = None
         self.mWidth = 0
         self.mHeight = 0
@@ -19,10 +20,15 @@ class Sprite(GameObject):
         self.mScore = 0
         self.mRegistration = Sprite.TOP_LEFT
         self.mRadius = 0
+        self.mAngle = 0
+
 
     def render(self, aScreen):
         if(self.mImg != None):
             if self.mVisible:
+                if self.mAngle != 0:
+                    self.updateImage()
+
                 if self.mRegistration == Sprite.TOP_LEFT:
                     aScreen.blit(self.mImg, (self.getX(), self.getY()))
                 elif self.mRegistration == Sprite.CENTER:
@@ -32,8 +38,17 @@ class Sprite(GameObject):
 
     def setImage(self, aImg):
         self.mImg = aImg
+        self.mImgMaster = aImg
         self.mWidth = self.mImg.get_width()
         self.mHeight = self.mImg.get_height()
+
+    def updateImage(self):
+        self.mImg = pygame.transform.rotate(self.mImgMaster, self.mAngle)
+        self.mWidth = self.mImg.get_width()
+        self.mHeight = self.mImg.get_height()
+
+    def setAngle(self, aAngle):
+        self.mAngle = aAngle
 
     def getImage(self):
         return self.mImg

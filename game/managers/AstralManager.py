@@ -55,7 +55,12 @@ class AstralManager(Manager):
         planets = Math.randomIntBetween(3, 6)
 
         for x in range(0, planets):
-            planet = Planet()
+
+            planetType = Planet.TYPE_PLANET
+            if Math.randomIntBetween(1, 3) == 1:
+                planetType = Planet.TYPE_GAS
+
+            planet = Planet(planetType)
             planet.setXY(
                 planet.getWidth() * 3 * x + GameConstants.SCREEN_WIDTH,
                 Math.randomIntBetween(0, GameConstants.SCREEN_HEIGHT - planet.getHeight())
