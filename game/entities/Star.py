@@ -5,6 +5,7 @@ from api.GameObject import GameObject
 from api.GameConstants import GameConstants
 from api.Math import Math
 from api.Circle import Circle
+from api.AnimationManager import AnimationManager
 
 
 class Star(AnimatedSprite):
@@ -38,12 +39,9 @@ class Star(AnimatedSprite):
 		elif self.mColor == Star.TYPE_BLUE:
 			name = "assets\\images\\stars\\blue-star"
 
-		while i < 4:
-			tmpImg = pygame.image.load(name + str(i) + ".png").convert_alpha()
-			tmpImg = pygame.transform.scale(
-				tmpImg, (int(tmpImg.get_width() * scale), int(tmpImg.get_height() * scale)))
-			self.mFrames.append(tmpImg)
-			i += 1
+		animationName = str(Star.TYPE_ORANGE) + '-star-' + str(scale)
+
+		self.mFrames = AnimationManager.inst().loadAnimation(animationName, name, 4, scale)
 		
 		self.setBoundAction(GameObject.NONE)
 		self.setBounds(0, 0, GameConstants.inst().SCREEN_WIDTH,
@@ -64,4 +62,4 @@ class Star(AnimatedSprite):
 		AnimatedSprite.render(self, aScreen)
 
 	def destroy(self):
-		AnimatedSprite.destroy(self)
+		pass

@@ -5,6 +5,7 @@ from api.AnimatedSprite import AnimatedSprite
 from api.GameObject import GameObject
 from api.GameConstants import GameConstants
 from api.Circle import Circle
+from api.AnimationManager import AnimationManager
 
 class Planet(AnimatedSprite):
 
@@ -24,7 +25,7 @@ class Planet(AnimatedSprite):
         if self.mType == Planet.TYPE_PLANET:
             imageName = "assets\\images\\planets\\planet"
             self.setScore(25)
-            frameQuantity = 20
+            frameQuantity = 10
         elif self.mType == Planet.TYPE_GAS:
             imageName = "assets\\images\\planets\\gas-planet"
             self.setScore(-50)
@@ -34,13 +35,10 @@ class Planet(AnimatedSprite):
         self.setAngle(Math.randomIntBetween(-30, 30))
         self.mFrames = []
 
-        i = 0
-        while i < frameQuantity:
-            img = pygame.image.load(
-                imageName + str(i) + ".png").convert_alpha()
-            self.mFrames.append(img)
-            i += 1
+        animationName = 'planet' if self.mType == Planet.TYPE_PLANET else 'gas-planet'
 
+        self.mFrames = AnimationManager.inst().loadAnimation(animationName, imageName, frameQuantity)
+        
         self.initAnimation(self.mFrames, Math.randomIntBetween(0, len(self.mFrames) - 1), Math.randomIntBetween(2, 8), True)
         
     def collides(self, player):
@@ -56,4 +54,5 @@ class Planet(AnimatedSprite):
         AnimatedSprite.render(self, aScreen)
 
     def destroy(self):
-        AnimatedSprite.destroy(self)
+        self.mType = None
+        self.mFrames = None
